@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Acadêmico</title>
+    <title>Brasleirão 2023</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
 </head>
 <body>
@@ -16,12 +16,28 @@
             </ul>
         </nav>
     </header>   
-    <section class="conteudo">
-        
+    <section class=" conteudo">
+        <h1>Tabela do Brasleirão 2023</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Classificação</th>
+                    <th>Nome do Time</th>
+                </tr>
+            </thead>
 
+
+            <tbody>
+                {% for dado in todos %}
+                <tr>
+                    <td>{{dado['Classif']}}</td>
+                    <td>{{dado['Nome'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+          
+        </table>
     </section>
-    <footer class="rodape">
-        <p>&copy; Brasleirão 2023</p>
-    </footer>
 </body>
 </html>
