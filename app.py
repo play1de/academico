@@ -1,7 +1,9 @@
 import os
 import csv
 from flask import Flask, render_template, request, redirect, url_for
-from operator import itemgetter, attrgetter
+from tempfile import NamedTemporaryFile
+import shutil
+
 
 app = Flask(__name__)
 
@@ -15,11 +17,11 @@ def inserir_time():
         nome = request.form['nome']
         golsM = request.form['golsM']
         golsS = request.form['golsS']
-
-        with open(verificar_arquivo(), 'a', newline='') as csvfile:
-            ordered_fieldnames = ['nome', 'golsM', 'golsS']
-            writer = csv.DictWriter(csvfile, fieldnames=ordered_fieldnames)
-            writer.writerow({'nome': nome, 'golsM': golsM, 'golsS': golsS})
+        if not atualiza(nome,golsM,golsS):
+            with open(verificar_arquivo(), 'a', newline='') as csvfile:
+                ordered_fieldnames = ['nome', 'golsM', 'golsS']
+                writer = csv.DictWriter(csvfile, fieldnames=ordered_fieldnames)
+                writer.writerow({'nome': nome, 'golsM': golsM, 'golsS': golsS})
 
     return render_template('inserir_time.html')
 
@@ -49,5 +51,24 @@ def verificar_arquivo():
 def classificar(e):
     return e['Sgols']
         
+def atualiza(nome, golsM, golsS):
+    ok = False
+    tempfile = NamedTemporaryFile(mode='w', delete=False)
+    fields = ['nome', 'golsM', 'golsS']
+    arquivo = verificar_arquivo()
+    with open(arquivo, 'r') as csvfile, tempfile:
+        reader = csv.DictReader(csvfile, fieldnames=fields)
+        writer = csv.DictWriter(tempfile, fieldnames=fields)
+        for row in reader:
+            if row['nome'] == nome:
+                print('Encontrei o nome', row['nome'])
+                row['nome'], row['golsM'], row['golsS'] = nome, golsM, golsS
+                ok = True
+            row = {'nome': row['nome'], 'golsM': row['golsM'], 'golsS': row['golsS']}
+            writer.writerow(row)
+        if(ok):
+            shutil.move(tempfile.name, arquivo)
+        return ok
+            
 if __name__ == '__main__':
     app.run(debug=True)
