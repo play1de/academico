@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brasleirão 2023</title>
+    <title>Capeonato de Futebol</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
 </head>
 <body>
@@ -16,28 +16,36 @@
             </ul>
         </nav>
     </header>   
-    <section class=" conteudo">
-        <h1>Tabela do Brasleirão 2023</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Classificação</th>
-                    <th>Nome do Time</th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                {% for dado in todos %}
-                <tr>
-                    <td>{{dado['Classif']}}</td>
-                    <td>{{dado['Nome'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-
-          
-        </table>
+    <section class="conteudo">
+        <div class="tabela">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Classificação</th>
+                        <th>Nome do Time</th>
+                        <th>Gols Marcados</th>
+                        <th>Gols Sofridos</th>
+                        <th>Saldo de Gols</th>
+                    </tr>
+                </thead>
+    
+    
+                <tbody>
+                    {% for dado in todos %}
+                        {% set id = loop.index0 + 1 %}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{dado['nome'] }}</td>
+                        <td>{{dado['golsM'] }}</td>
+                        <td>{{dado['golsS'] }}</td>
+                        <td>{{dado['Sgols'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+    
+              
+            </table>
+        </div>
     </section>
 </body>
 </html>

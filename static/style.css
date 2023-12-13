@@ -2,6 +2,13 @@ body {
     margin: 0;
     padding: 0;
   }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th{
+    background-color: bisque;
+  }
   h1 {
     text-align: center;
   }
@@ -45,9 +52,12 @@ body {
     color: black;
   } 
   .conteudo {
+    align-content: center;
     width: 100%;
     position: absolute;
-     top: 50px;
+    top: 50px;
+    display: flex;
+    align-items: center;
   }
 
   .rodape {
@@ -55,4 +65,59 @@ body {
     position: absolute;
     bottom: 0px;
     text-align: center;
+  }
+  input[type=text], select {
+    width: 200px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type=number] {
+    width: 100px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 100px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  .formulario {
+    width: 50%;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  .tabela {
+    padding: 10px;
+    width: 100%;
+    align-items: center;
+  }
+  .equipe {
+    padding: 20px;
+    width: 50%;
+    border-radius: 20px;
+    background-color: #f2edf6;
+    text-align: center;
+    position: absolute;
+    right: calc(50% - 280px);
+    top: 100px;
   }

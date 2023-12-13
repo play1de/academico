@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Acadêmico</title>
+    <title>Capeonato de Futebol</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
 </head>
 <body>
@@ -18,11 +18,19 @@
     </header>   
     
     <section class="conteudo">
-        <form method="post">
-            <label for="nome_time">Nome do Time</label>
-            <input type="text" id="nome_time" name="nome_time" required>
+        <div class="formulario">
+            <form method="post">
+                <label for="nome">Nome do Time</label><br>
+                <input type="text" id="nome" name="nome" required><br>
+                <label for="golsM">Gols Marcados</label>
+                <input type="number" id="golsM" name="golsM" required><br>
+                <label for="golsS">Gols Sofridos</label>
+                <input type="number" id="golsS" name="golsS" required><br>
 
-        </form>
+                <input type="submit" value="Cadastrar">
+            </form>
+        </div>
+      
     </section>
     <footer class="rodape">
         <p>&copy; 2023 Sistema Acadêmico</p>

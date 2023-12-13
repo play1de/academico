@@ -1,6 +1,7 @@
 import os
 import csv
 from flask import Flask, render_template, request, redirect, url_for
+from operator import itemgetter, attrgetter
 
 app = Flask(__name__)
 
@@ -11,35 +12,42 @@ def index():
 @app.route('/inserir_time', methods=['GET', 'POST'])
 def inserir_time():
     if request.method == 'POST':
-        nome = request.form['nome_time']
-        itinerario = request.form['itinerario']
-        nota1 = request.form['nota1']
-        nota2 = request.form['nota2']
-        nota3 = request.form['nota3']
+        nome = request.form['nome']
+        golsM = request.form['golsM']
+        golsS = request.form['golsS']
 
-        with open('brasileirao2023.csv', 'a', newline='') as csvfile:
-            fieldnames = ['Nome', 'Itinerario', 'Nota1', 'Nota2', 'Nota3']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            if not os.path.exists('rendimentos.csv'):
-                writer.writeheader()
-
-            writer.writerow({'Nome': nome, 'Itinerario': itinerario, 'Nota1': nota1, 'Nota2': nota2, 'Nota3': nota3})
+        with open(verificar_arquivo(), 'a', newline='') as csvfile:
+            ordered_fieldnames = ['nome', 'golsM', 'golsS']
+            writer = csv.DictWriter(csvfile, fieldnames=ordered_fieldnames)
+            writer.writerow({'nome': nome, 'golsM': golsM, 'golsS': golsS})
 
     return render_template('inserir_time.html')
 
 @app.route('/exibir_tabela')
 def exibir_tabela():
     todos = []
-    with open('brasileirao2023.csv','r') as csvfile:
+    arquivo = verificar_arquivo()
+    with open(arquivo,'r',encoding="utf8",errors="ignore", newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            ordem = row['classif']
             nome = row['nome']
-            todos.append({'Classif':ordem,'Nome': nome})
+            golsM = row['golsM']
+            golsS = row['golsS']
+            todos.append({'nome': nome, 'golsM': golsM, 'golsS': golsS, 'Sgols':int(golsM) - int(golsS)})
 
-    print(todos)
+        print(todos.sort(reverse=True,key=classificar))
+
     return render_template('exibir_tabela.html', todos=todos)
 
+def verificar_arquivo():
+    arquivo = os.path.join(os.path.dirname(os.path.realpath(__file__)),'static','brasileirao2023.csv')
+    if(not os.path.isfile(arquivo)):
+        with open(arquivo, 'a', encoding="utf8",errors="ignore", newline='') as logfile:
+            logfile.write("nome,golsM,golsS")
+    return arquivo
+
+def classificar(e):
+    return e['Sgols']
+        
 if __name__ == '__main__':
     app.run(debug=True)
